@@ -1,6 +1,7 @@
 import { HashRouter } from "react-router-dom";
+import Router from "./Router";
 
-const APP = () => {
+const App = () => {
   return (
     <HashRouter>
       <Router />
