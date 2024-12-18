@@ -13,6 +13,7 @@ export const GlobalStyled = createGlobalStyle`
   body {
     font-family: "DX별과그대Bold";
     letter-spacing: -1px;
+    
   }
   @font-face {
     font-family: "DX별과그대Bold";
