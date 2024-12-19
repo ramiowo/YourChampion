@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ResultData from "./data/ResultData";
 import styled from "styled-components";
 import Loading from "../../components/Loading";
+import html2canvas from "html2canvas";
 const Container = styled.section`
   width: 100%;
   max-width: 402px;
@@ -19,11 +20,12 @@ const Container = styled.section`
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(${(props) => props.backgroundImage});
+    background-image: url(${(props) => props.$backgroundImage});
     background-size: cover;
     background-position: center;
     background-color: rgba(0, 0, 0, 0.9);
-    filter: blur(13px);
+    filter: url(#blur-filter);
+
     z-index: 1;
   }
 
@@ -176,10 +178,38 @@ const SimilarWrap = styled.div`
   }
 `;
 
+const ButtonWrap = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+`;
+
+const SaveButton = styled.button`
+  all: unset;
+  width: 45%;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgb(137, 160, 186);
+  font-size: 16px;
+  cursor: pointer;
+`;
+
+const ShareButton = styled.button`
+  all: unset;
+  width: 45%;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgb(215, 138, 206);
+  font-size: 16px;
+  cursor: pointer;
+`;
+
 const ResultPage = () => {
   const location = useLocation();
   const answers = location.state?.answers || [];
   const [isLoading, setIsLoading] = useState(true);
+  const resultRef = useRef(null);
 
   const calculateMbti = (answers) => {
     const mbti = {
@@ -207,7 +237,7 @@ const ResultPage = () => {
 
   const mbtiResult = calculateMbti(answers);
   // console.log(mbtiResult);
-  const champions = ResultData[mbtiResult] || [];
+  const champions = useMemo(() => ResultData[mbtiResult] || [], [mbtiResult]);
   // console.log(champions);
   //console.log(ResultData);
 
@@ -239,106 +269,147 @@ const ResultPage = () => {
       setIsLoading(false);
     }
   }, [champions, mbtiResult]);
+
+  const handleSaveResult = async () => {
+    if (resultRef.current) {
+      const canvas = await html2canvas(resultRef.current, { useCORS: true });
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = "result.png";
+      link.click();
+    }
+  };
+
+  const handleShareResult = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "내 MBTI 결과",
+          text: `나의 챔피언 MBTI 결과는 ${mbtiResult}입니다!`,
+          url: window.location.href,
+        })
+        .then(() => console.log("공유 성공"))
+        .catch((error) => console.error("공유 실패", error));
+    } else {
+      alert("공유 기능을 지원하지 않는 브라우저입니다.");
+    }
+  };
   return (
-    <div>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <Container backgroundImage={randomChampion.backgroundImageUrl}>
-            <BackBlur />
-            <div className="content">
-              <p className="resultMbti">{mbtiResult}</p>
-              {randomChampion ? (
-                <div className="champion">
-                  <ChampionWrap>
-                    <p className="champQuote">"{randomChampion.quote}"</p>
-                    <h3 className="champName">{randomChampion.name}</h3>
-                    <img
-                      src={randomChampion.imageUrl}
-                      alt={randomChampion.name}
-                    />
-                    <ul>
-                      {randomChampion.features.map((features, index) => (
-                        <li key={index}>#{features}</li>
-                      ))}
-                    </ul>
-                    <p className="champDesc">{randomChampion.description}</p>
-                  </ChampionWrap>
-                  <SimilarBack>
-                    <h2>성향이 비슷한 챔피언</h2>
-                    <SimilarWrap>
-                      {similarChampions.length > 0 ? (
-                        similarChampions.map((champion, index) => (
-                          <div key={index} className="champion">
-                            <img
-                              src={champion.imageUrl}
-                              alt={champion.name}
-                              width="100"
-                            />
-                            <h3>{champion.name}</h3>
-                          </div>
-                        ))
-                      ) : (
-                        <p>비슷한 성향의 챔피언이 없습니다.</p>
-                      )}
-                    </SimilarWrap>
-                  </SimilarBack>
-
-                  <MatchChamp>
-                    <Line>
-                      <div></div>
+    <>
+      <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
+        <filter id="blur-filter" x="0" y="0" width="100%" height="100%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
+        </filter>
+      </svg>
+      <div ref={resultRef}>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            <Container $backgroundImage={randomChampion.backgroundImageUrl}>
+              <BackBlur />
+              <div className="content">
+                <p className="resultMbti">{mbtiResult}</p>
+                {randomChampion ? (
+                  <div className="champion">
+                    <ChampionWrap>
+                      <p className="champQuote">"{randomChampion.quote}"</p>
+                      <h3 className="champName">{randomChampion.name}</h3>
                       <img
-                        className="linestar"
-                        src="/imgs/LineStar.svg"
-                        alt="linestar"
+                        src={randomChampion.imageUrl}
+                        alt={randomChampion.name}
+                        crossorigin="anonymous"
                       />
-                      <div></div>
-                    </Line>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <MatchWithChamp>
-                        <h4>잘맞는 챔피언</h4>
-                        <img
-                          src={randomChampion.matchesWith.imageUrl}
-                          alt="matchwithChamp"
-                        />
-                        <p>{randomChampion.matchesWith.mbti}</p>
-                        <p className="champName">
-                          {randomChampion.matchesWith
-                            ? randomChampion.matchesWith.champion
-                            : "없음"}
-                        </p>
-                      </MatchWithChamp>
-                      <MconflictChamp>
-                        <h4>안맞는 챔피언</h4>
+                      <ul>
+                        {randomChampion.features.map((features, index) => (
+                          <li key={index}>#{features}</li>
+                        ))}
+                      </ul>
+                      <p className="champDesc">{randomChampion.description}</p>
+                    </ChampionWrap>
+                    <SimilarBack>
+                      <h2>성향이 비슷한 챔피언</h2>
+                      <SimilarWrap>
+                        {similarChampions.length > 0 ? (
+                          similarChampions.map((champion, index) => (
+                            <div key={index} className="champion">
+                              <img
+                                src={champion.imageUrl}
+                                alt={champion.name}
+                                width="100"
+                              />
+                              <h3>{champion.name}</h3>
+                            </div>
+                          ))
+                        ) : (
+                          <p>비슷한 성향의 챔피언이 없습니다.</p>
+                        )}
+                      </SimilarWrap>
+                    </SimilarBack>
 
+                    <MatchChamp>
+                      <Line>
+                        <div></div>
                         <img
-                          src={randomChampion.conflictsWith.imageUrl}
-                          alt="matchwithChamp"
+                          className="linestar"
+                          src="/imgs/LineStar.svg"
+                          alt="linestar"
                         />
-                        <p>{randomChampion.conflictsWith.mbti}</p>
-                        <p className="champName">
-                          {randomChampion.conflictsWith
-                            ? randomChampion.conflictsWith.champion
-                            : "없음"}
-                        </p>
-                      </MconflictChamp>
-                    </div>
-                  </MatchChamp>
-                </div>
-              ) : (
-                <p>추천할 챔피언이 없습니다.</p>
-              )}
-            </div>
-          </Container>
-        </>
-      )}
-    </div>
+                        <div></div>
+                      </Line>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <MatchWithChamp>
+                          <h4>잘맞는 챔피언</h4>
+                          <img
+                            src={randomChampion.matchesWith.imageUrl}
+                            alt="matchwithChamp"
+                          />
+                          <p>{randomChampion.matchesWith.mbti}</p>
+                          <p className="champName">
+                            {randomChampion.matchesWith
+                              ? randomChampion.matchesWith.champion
+                              : "없음"}
+                          </p>
+                        </MatchWithChamp>
+                        <MconflictChamp>
+                          <h4>안맞는 챔피언</h4>
+
+                          <img
+                            src={randomChampion.conflictsWith.imageUrl}
+                            alt="matchwithChamp"
+                          />
+                          <p>{randomChampion.conflictsWith.mbti}</p>
+                          <p className="champName">
+                            {randomChampion.conflictsWith
+                              ? randomChampion.conflictsWith.champion
+                              : "없음"}
+                          </p>
+                        </MconflictChamp>
+                      </div>
+                    </MatchChamp>
+                    <ButtonWrap>
+                      <SaveButton onClick={handleSaveResult}>
+                        결과 저장하기
+                      </SaveButton>
+                      <ShareButton onClick={handleShareResult}>
+                        결과 공유하기
+                      </ShareButton>
+                    </ButtonWrap>
+                  </div>
+                ) : (
+                  <p>추천할 챔피언이 없습니다.</p>
+                )}
+              </div>
+            </Container>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
