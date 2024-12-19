@@ -8,8 +8,9 @@ const Container = styled.section`
   max-width: 402px;
   margin: 0 auto;
   position: relative;
-  height: 100vh;
+  /* height: 100vh; */
   overflow: hidden;
+  padding: 80px 16px 40px 16px;
 
   &::before {
     content: "";
@@ -22,16 +23,22 @@ const Container = styled.section`
     background-size: cover;
     background-position: center;
     background-color: rgba(0, 0, 0, 0.9);
-    filter: blur(20px); /* 배경에 블러 추가 */
+    filter: blur(13px);
     z-index: 1;
   }
 
   .content {
     position: relative;
-    z-index: 3; // 실제 콘텐츠가 블러 위에 위치하도록 설정
-    padding: 0 16px;
+    z-index: 3;
+    /* padding: 0 16px; */
     color: white;
     text-align: center;
+    .resultMbti {
+      font-size: 32px;
+      letter-spacing: 3px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 15px;
+    }
   }
 `;
 
@@ -41,8 +48,132 @@ const BackBlur = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 2;
+`;
+
+const ChampionWrap = styled.div`
+  .champQuote {
+    font-size: 16px;
+    color: #9b7f49;
+    margin-bottom: 16px;
+  }
+  .champName {
+    font-size: 24px;
+  }
+  img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: fill;
+    box-shadow: 0 0 16px 6px rgba(238, 238, 238, 0.2);
+    margin-top: 34px;
+    margin-bottom: 34px;
+  }
+  ul {
+    display: flex;
+    justify-content: center;
+    li {
+      color: #efcd8b;
+      font-size: 16px;
+      margin-left: 5px;
+      margin-bottom: 10px;
+    }
+  }
+  .champDesc {
+    word-break: keep-all;
+    font-size: 18px;
+    line-height: 30px;
+  }
+`;
+
+const Line = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  div {
+    width: 155px;
+    height: 1px;
+    background-color: #fff;
+    opacity: 0.2;
+  }
+  .linestar {
+    width: 20px;
+    height: 19px;
+    box-shadow: none;
+  }
+`;
+
+const MatchChamp = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+  h4 {
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    box-shadow: 0 0 16px 6px rgba(238, 238, 238, 0.2);
+  }
+  p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 8px;
+    letter-spacing: 2px;
+  }
+`;
+
+const MatchWithChamp = styled.div`
+  width: 155px;
+  h4,
+  .champName {
+    color: #d9e5ff;
+    letter-spacing: 0;
+  }
+`;
+const MconflictChamp = styled.div`
+  width: 155px;
+  h4,
+  .champName {
+    color: #ffd1d1;
+    margin-top: 6px;
+    letter-spacing: 0;
+  }
+`;
+
+const SimilarBack = styled.div`
+  margin-top: 30px;
+  padding: 20px 0;
+  width: 100%;
+  height: 160px;
+  border-radius: 10px;
+  background-color: rgba(91, 87, 87, 0.4);
+  h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #dbdbdb;
+  }
+  h3 {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  img {
+    box-shadow: 0 0 14px 6px rgba(99, 99, 99, 0.4);
+  }
+`;
+
+const SimilarWrap = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
 `;
 
 const ResultPage = () => {
@@ -117,48 +248,91 @@ const ResultPage = () => {
           <Container backgroundImage={randomChampion.backgroundImageUrl}>
             <BackBlur />
             <div className="content">
-              <p>{mbtiResult}</p>
+              <p className="resultMbti">{mbtiResult}</p>
               {randomChampion ? (
                 <div className="champion">
-                  <p>{randomChampion.quote}</p>
-                  <h3>{randomChampion.name}</h3>
-                  <img
-                    src={randomChampion.imageUrl}
-                    alt={randomChampion.name}
-                    style={{ borderRadius: "50%" }}
-                  />
-                  <ul>
-                    {randomChampion.features.map((features, index) => (
-                      <li key={index}>#{features}</li>
-                    ))}
-                  </ul>
-                  <p>{randomChampion.description}</p>
+                  <ChampionWrap>
+                    <p className="champQuote">"{randomChampion.quote}"</p>
+                    <h3 className="champName">{randomChampion.name}</h3>
+                    <img
+                      src={randomChampion.imageUrl}
+                      alt={randomChampion.name}
+                    />
+                    <ul>
+                      {randomChampion.features.map((features, index) => (
+                        <li key={index}>#{features}</li>
+                      ))}
+                    </ul>
+                    <p className="champDesc">{randomChampion.description}</p>
+                  </ChampionWrap>
+                  <SimilarBack>
+                    <h2>성향이 비슷한 챔피언</h2>
+                    <SimilarWrap>
+                      {similarChampions.length > 0 ? (
+                        similarChampions.map((champion, index) => (
+                          <div key={index} className="champion">
+                            <img
+                              src={champion.imageUrl}
+                              alt={champion.name}
+                              width="100"
+                            />
+                            <h3>{champion.name}</h3>
+                          </div>
+                        ))
+                      ) : (
+                        <p>비슷한 성향의 챔피언이 없습니다.</p>
+                      )}
+                    </SimilarWrap>
+                  </SimilarBack>
 
-                  <p>
-                    잘맞는챔피언
-                    {randomChampion.matchesWith
-                      ? randomChampion.matchesWith.champion
-                      : "없음"}
-                  </p>
+                  <MatchChamp>
+                    <Line>
+                      <div></div>
+                      <img
+                        className="linestar"
+                        src="/imgs/LineStar.svg"
+                        alt="linestar"
+                      />
+                      <div></div>
+                    </Line>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <MatchWithChamp>
+                        <h4>잘맞는 챔피언</h4>
+                        <img
+                          src={randomChampion.matchesWith.imageUrl}
+                          alt="matchwithChamp"
+                        />
+                        <p>{randomChampion.matchesWith.mbti}</p>
+                        <p className="champName">
+                          {randomChampion.matchesWith
+                            ? randomChampion.matchesWith.champion
+                            : "없음"}
+                        </p>
+                      </MatchWithChamp>
+                      <MconflictChamp>
+                        <h4>안맞는 챔피언</h4>
+
+                        <img
+                          src={randomChampion.conflictsWith.imageUrl}
+                          alt="matchwithChamp"
+                        />
+                        <p>{randomChampion.conflictsWith.mbti}</p>
+                        <p className="champName">
+                          {randomChampion.conflictsWith
+                            ? randomChampion.conflictsWith.champion
+                            : "없음"}
+                        </p>
+                      </MconflictChamp>
+                    </div>
+                  </MatchChamp>
                 </div>
               ) : (
                 <p>추천할 챔피언이 없습니다.</p>
-              )}
-
-              <h2>비슷한 성향의 챔피언들</h2>
-              {similarChampions.length > 0 ? (
-                similarChampions.map((champion, index) => (
-                  <div key={index} className="champion">
-                    <h3>{champion.name}</h3>
-                    <img
-                      src={champion.imageUrl}
-                      alt={champion.name}
-                      width="100"
-                    />
-                  </div>
-                ))
-              ) : (
-                <p>비슷한 성향의 챔피언이 없습니다.</p>
               )}
             </div>
           </Container>

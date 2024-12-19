@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // React Router를 사용하여 페이지 이동
 import Questions from "./data/Question";
+import styled from "styled-components";
+
+const Container = styled.section`
+  width: 100%;
+  max-width: 402px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 80px 16px 40px 16px;
+  background-image: url(${(props) => props.backgroundImage});
+  background-size: cover;
+  background-position: center;
+`;
 
 const TestPage = () => {
   const navigate = useNavigate(); // 페이지 이동을 위한 hook
@@ -23,8 +35,7 @@ const TestPage = () => {
   const currentQuestion = Questions[currentQuestionIndex];
 
   return (
-    <div className="test-page">
-      <h1>MBTI 테스트</h1>
+    <Container backgroundImage={"/imgs/BackImg.jpg"}>
       <div className="question-container">
         <h2>{currentQuestion.question}</h2>
         {currentQuestion.options.map((option, index) => (
@@ -40,7 +51,7 @@ const TestPage = () => {
           </div>
         ))}
       </div>
-    </div>
+    </Container>
   );
 };
 

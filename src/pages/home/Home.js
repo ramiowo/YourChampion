@@ -5,6 +5,7 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
   width: 100%;
   max-width: 402px;
   height: 100vh;
@@ -19,9 +20,10 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+
   h4 {
     position: relative;
-    margin-top: 290px;
+    margin-top: 40px;
     font-size: 14px;
     opacity: 0.8;
     img {
@@ -37,7 +39,7 @@ const Title = styled.div`
 `;
 
 const StartBtn = styled.div`
-  margin-top: 260px;
+  /* margin-top: 260px; */
   width: 260px;
   height: 60px;
   border: 1px solid rgba(255, 255, 255, 0.8);
