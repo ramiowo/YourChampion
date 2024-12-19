@@ -62,9 +62,9 @@ const Home = () => {
         </h4>
         <h2>너의 챔피언은.</h2>
       </Title>
-      <StartBtn>
-        <Link to={"/test"}>나의 챔피언 만나러가기</Link>
-      </StartBtn>
+      <Link to={"/test"}>
+        <StartBtn>나의 챔피언 만나러가기</StartBtn>
+      </Link>
     </Container>
   );
 };
