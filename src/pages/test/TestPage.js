@@ -9,7 +9,7 @@ const Container = styled.section`
   height: 100vh;
   margin: 0 auto;
   padding: 80px 16px 40px 16px;
-  background-image: url(${(props) => props.backgroundImage});
+  background-image: url(${(props) => props.$backgroundImage});
   background-size: cover;
   background-position: center;
   position: relative;
@@ -34,8 +34,8 @@ const ProgressText = styled.div`
 
 const ImageOverlay = styled.div`
   margin: 0 auto;
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   margin-bottom: 20px;
   background-image: url("/imgs/Timo.svg");
   background-size: cover;
@@ -117,7 +117,6 @@ const TestPage = () => {
     if (currentQuestionIndex + 1 < Questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      // 모든 질문을 마쳤을 때 결과 페이지로 이동
       navigate("/result", { state: { answers: newAnswers } });
     }
   };
@@ -126,7 +125,7 @@ const TestPage = () => {
   const progress = Math.min(currentQuestionIndex / (Questions.length - 1), 1);
 
   return (
-    <Container backgroundImage={"/imgs/BackImg.jpg"}>
+    <Container $backgroundImage={"/imgs/BackImg.jpg"}>
       <BackGroundBlur />
       <InnerWrap>
         <ImageOverlay progress={progress} />
@@ -135,9 +134,9 @@ const TestPage = () => {
         </ProgressText>
 
         <h2>{currentQuestion.question}</h2>
-        {currentQuestion.options.map((option, index) => (
+        {currentQuestion.options.map((option, id) => (
           <div
-            key={index}
+            key={id}
             className="option"
             onClick={() => handleAnswer(option.type)}
           >

@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ResultData from "./data/ResultData";
 import styled from "styled-components";
 import Loading from "../../components/Loading";
 import html2canvas from "html2canvas";
+import { MdSaveAlt } from "react-icons/md";
+import { RiShare2Line } from "react-icons/ri";
+import { GrPowerReset } from "react-icons/gr";
+
 const Container = styled.section`
   width: 100%;
   max-width: 402px;
@@ -52,6 +56,7 @@ const BackBlur = styled.div`
   left: 0;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 2;
+  backdrop-filter: blur(10px);
 `;
 
 const ChampionWrap = styled.div`
@@ -179,30 +184,59 @@ const SimilarWrap = styled.div`
 `;
 
 const ButtonWrap = styled.div`
-  margin-top: 20px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 14px;
+  font-family: "NotoSansKr";
+  font-size: 16px;
+  font-weight: 500;
+  p {
+    margin-top: 8px;
+  }
+`;
+
+const ReButton = styled.button`
+  all: unset;
+  width: 40%;
+  height: 75px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(59, 59, 59, 0.8);
 `;
 
 const SaveButton = styled.button`
   all: unset;
-  width: 45%;
-  height: 50px;
+  width: 40%;
+  height: 75px;
   border-radius: 10px;
-  background-color: rgb(137, 160, 186);
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
   font-size: 16px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ShareButton = styled.button`
   all: unset;
-  width: 45%;
-  height: 50px;
+  width: 40%;
+  height: 75px;
   border-radius: 10px;
-  background-color: rgb(215, 138, 206);
+  background-color: rgba(206, 178, 121, 0.6);
+  color: rgb(255, 255, 255);
   font-size: 16px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ResultPage = () => {
@@ -210,6 +244,7 @@ const ResultPage = () => {
   const answers = location.state?.answers || [];
   const [isLoading, setIsLoading] = useState(true);
   const resultRef = useRef(null);
+  const nav = useNavigate();
 
   const calculateMbti = (answers) => {
     const mbti = {
@@ -295,13 +330,14 @@ const ResultPage = () => {
     }
   };
   return (
-    <>
+    <div ref={resultRef}>
       <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
         <filter id="blur-filter" x="0" y="0" width="100%" height="100%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
         </filter>
       </svg>
-      <div ref={resultRef}>
+
+      <div>
         {isLoading ? (
           <Loading />
         ) : (
@@ -318,7 +354,7 @@ const ResultPage = () => {
                       <img
                         src={randomChampion.imageUrl}
                         alt={randomChampion.name}
-                        crossorigin="anonymous"
+                        crossOrigin="anonymous"
                       />
                       <ul>
                         {randomChampion.features.map((features, index) => (
@@ -393,11 +429,17 @@ const ResultPage = () => {
                       </div>
                     </MatchChamp>
                     <ButtonWrap>
+                      <ReButton onClick={() => nav("/test")}>
+                        <GrPowerReset style={{ fontSize: "23px" }} />
+                        <p>다시하기</p>
+                      </ReButton>
                       <SaveButton onClick={handleSaveResult}>
-                        결과 저장하기
+                        <MdSaveAlt style={{ fontSize: "23px" }} />
+                        <p>저장하기</p>
                       </SaveButton>
                       <ShareButton onClick={handleShareResult}>
-                        결과 공유하기
+                        <RiShare2Line style={{ fontSize: "23px" }} />
+                        <p>공유하기</p>
                       </ShareButton>
                     </ButtonWrap>
                   </div>
@@ -409,7 +451,7 @@ const ResultPage = () => {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

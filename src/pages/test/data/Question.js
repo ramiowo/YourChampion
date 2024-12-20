@@ -1,5 +1,6 @@
 const Questions = [
   {
+    id: 0,
     question: "며칠째 연패해서 화가 난 친구에게",
     options: [
       {
@@ -15,6 +16,7 @@ const Questions = [
     ],
   },
   {
+    id: 1,
     question: "신챔 출시!",
     options: [
       {
@@ -31,6 +33,7 @@ const Questions = [
     ],
   },
   {
+    id: 2,
     question: "롤 경기를 보면서 나는...",
     options: [
       {
@@ -46,6 +49,7 @@ const Questions = [
     ],
   },
   {
+    id: 3,
     question:
       "칼바람에서 우연히 만나 재밌게 채팅치던 4인큐가 게임 끝나고 나를 초대했다.",
     options: [
@@ -62,6 +66,7 @@ const Questions = [
     ],
   },
   {
+    id: 4,
     question: "팀원이 나를 타겟으로 정치질을 한다.",
     options: [
       {
@@ -77,6 +82,7 @@ const Questions = [
     ],
   },
   {
+    id: 5,
     question: "나만의 상점에 평소에 사고 싶었던 스킨이 떴다.",
     options: [
       {
@@ -92,6 +98,7 @@ const Questions = [
     ],
   },
   {
+    id: 6,
     question: "내가 주로 픽하는 챔피언은...",
     options: [
       {
@@ -107,6 +114,7 @@ const Questions = [
     ],
   },
   {
+    id: 7,
     question: "오늘 저녁에 친구들과 다인큐 약속이 잡혀있다.",
     options: [
       {
@@ -122,6 +130,7 @@ const Questions = [
     ],
   },
   {
+    id: 8,
     question: "롤은 역시,",
     options: [
       {
@@ -137,6 +146,7 @@ const Questions = [
     ],
   },
   {
+    id: 9,
     question:
       "삶과 죽음의 순환은 계속된다. 우리는 살 것이고 저들은 죽을 것이다...",
     options: [
@@ -153,6 +163,7 @@ const Questions = [
     ],
   },
   {
+    id: 10,
     question: "친구들과 게임할 때 나는,",
     options: [
       {
@@ -168,6 +179,7 @@ const Questions = [
     ],
   },
   {
+    id: 11,
     question: "초반 라인전에서 솔킬을 두 번 따였다.",
     options: [
       {
