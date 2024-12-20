@@ -10,7 +10,7 @@ const Container = styled.section`
   max-width: 402px;
   height: 100vh;
   margin: 0 auto;
-  background-image: url(/imgs/BackImg.jpg);
+  background-image: url(${process.env.PUBLIC_URL}/imgs/BackImg.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

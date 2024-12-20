@@ -39,6 +39,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
+  "homepage": "https://ramiowo.github.io/YourChampion/#/",
   "eslintConfig": {
     "extends": [
       "react-app",
