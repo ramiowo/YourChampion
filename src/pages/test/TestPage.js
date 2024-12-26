@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Questions from "./data/Question";
 import styled from "styled-components";
+import { Helmet } from "react-helmet-async";
 
 const Container = styled.section`
   width: 100%;
@@ -125,27 +126,34 @@ const TestPage = () => {
   const progress = Math.min(currentQuestionIndex / (Questions.length - 1), 1);
 
   return (
-    <Container $backgroundImage={`${process.env.PUBLIC_URL}/imgs/BackImg.jpg`}>
-      <BackGroundBlur />
-      <InnerWrap>
-        <ImageOverlay progress={progress} />
-        <ProgressText>
-          {currentQuestionIndex + 1} / {Questions.length}
-        </ProgressText>
+    <>
+      <Helmet>
+        <title>내 챔피언은 뭘까? | 너의 챔피언은.</title>
+      </Helmet>
+      <Container
+        $backgroundImage={`${process.env.PUBLIC_URL}/imgs/BackImg.jpg`}
+      >
+        <BackGroundBlur />
+        <InnerWrap>
+          <ImageOverlay progress={progress} />
+          <ProgressText>
+            {currentQuestionIndex + 1} / {Questions.length}
+          </ProgressText>
 
-        <h2>{currentQuestion.question}</h2>
-        {currentQuestion.options.map((option, id) => (
-          <div
-            key={id}
-            className="option"
-            onClick={() => handleAnswer(option.type)}
-          >
-            <p className="sub">"{option.subtitle}"</p>
-            <p className="answer">{option.answer}</p>
-          </div>
-        ))}
-      </InnerWrap>
-    </Container>
+          <h2>{currentQuestion.question}</h2>
+          {currentQuestion.options.map((option, id) => (
+            <div
+              key={id}
+              className="option"
+              onClick={() => handleAnswer(option.type)}
+            >
+              <p className="sub">"{option.subtitle}"</p>
+              <p className="answer">{option.answer}</p>
+            </div>
+          ))}
+        </InnerWrap>
+      </Container>
+    </>
   );
 };
 

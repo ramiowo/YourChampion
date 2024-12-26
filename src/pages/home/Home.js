@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -54,21 +55,26 @@ const StartBtn = styled.div`
 
 const Home = () => {
   return (
-    <Container>
-      <Title>
-        <h4>
-          내가 만약 롤 챔피언이 된다면?
-          <img
-            src={`${process.env.PUBLIC_URL}/imgs/HomeStar.png`}
-            alt="homestar"
-          ></img>
-        </h4>
-        <h2>너의 챔피언은.</h2>
-      </Title>
-      <Link to={"/test"}>
-        <StartBtn>나의 챔피언 만나러가기</StartBtn>
-      </Link>
-    </Container>
+    <>
+      <Helmet>
+        <title>너의 챔피언은.</title>
+      </Helmet>
+      <Container>
+        <Title>
+          <h4>
+            내가 만약 롤 챔피언이 된다면?
+            <img
+              src={`${process.env.PUBLIC_URL}/imgs/HomeStar.png`}
+              alt="homestar"
+            ></img>
+          </h4>
+          <h2>너의 챔피언은.</h2>
+        </Title>
+        <Link to={"/test"}>
+          <StartBtn>나의 챔피언 만나러가기</StartBtn>
+        </Link>
+      </Container>
+    </>
   );
 };
 

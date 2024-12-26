@@ -7,6 +7,7 @@ import html2canvas from "html2canvas";
 import { MdSaveAlt } from "react-icons/md";
 import { RiShare2Line } from "react-icons/ri";
 import { GrPowerReset } from "react-icons/gr";
+import { Helmet } from "react-helmet-async";
 
 const Container = styled.section`
   width: 100%;
@@ -342,6 +343,9 @@ const ResultPage = () => {
           <Loading />
         ) : (
           <>
+            <Helmet>
+              <title>내 챔피언은 | 너의 챔피언은.</title>
+            </Helmet>
             <Container $backgroundImage={randomChampion.backgroundImageUrl}>
               <BackBlur />
               <div className="content">
