@@ -321,7 +321,7 @@ const ResultPage = () => {
       navigator
         .share({
           title: "내 챔피언은",
-          text: `나의 챔피언은 ${champion.npme} 입니다. 당신의 챔피언도 알려주세요!`,
+          text: `나의 챔피언은 ${randomChampion.name} 입니다. 당신의 챔피언도 알려주세요!`,
           url: window.location.href,
         })
         .then(() => console.log("공유 성공"))
