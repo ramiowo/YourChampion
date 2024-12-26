@@ -58,7 +58,10 @@ const Home = () => {
       <Title>
         <h4>
           내가 만약 롤 챔피언이 된다면?
-          <img src="/imgs/HomeStar.png" alt="homestar"></img>
+          <img
+            src={`${process.env.PUBLIC_URL}/imgs/HomeStar.png`}
+            alt="homestar"
+          ></img>
         </h4>
         <h2>너의 챔피언은.</h2>
       </Title>

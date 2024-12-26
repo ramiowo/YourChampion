@@ -41,7 +41,7 @@ const Header = () => {
         />
       </BackButton>
       <Logo onClick={() => navigate("/")}>
-        <img src="/imgs/Logo.svg" alt="logo" />
+        <img src={`${process.env.PUBLIC_URL}/imgs/Logo.svg`} alt="logo" />
       </Logo>
     </Container>
   );

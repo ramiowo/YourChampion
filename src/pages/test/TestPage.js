@@ -37,7 +37,7 @@ const ImageOverlay = styled.div`
   width: 100px;
   height: 100px;
   margin-bottom: 20px;
-  background-image: url("/imgs/Timo.svg");
+  background-image: url(${process.env.PUBLIC_URL}/imgs/Timo.svg);
   background-size: cover;
   background-position: center;
   opacity: ${({ progress }) => progress};
@@ -125,7 +125,7 @@ const TestPage = () => {
   const progress = Math.min(currentQuestionIndex / (Questions.length - 1), 1);
 
   return (
-    <Container $backgroundImage={"/imgs/BackImg.jpg"}>
+    <Container $backgroundImage={`${process.env.PUBLIC_URL}/imgs/BackImg.jpg`}>
       <BackGroundBlur />
       <InnerWrap>
         <ImageOverlay progress={progress} />

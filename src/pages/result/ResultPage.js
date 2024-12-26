@@ -388,7 +388,7 @@ const ResultPage = () => {
                         <div></div>
                         <img
                           className="linestar"
-                          src="/imgs/LineStar.svg"
+                          src={`${process.env.PUBLIC_URL}/imgs/LineStar.svg`}
                           alt="linestar"
                         />
                         <div></div>
